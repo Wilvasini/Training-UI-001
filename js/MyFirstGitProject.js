@@ -55,8 +55,7 @@ function validateForm(i)
 		{
 			gender = 'Female';
 		}
-		else
-		if(document.getElementById('male').checked)
+		else if(document.getElementById('male').checked)
 		{
 			gender = 'Male'
 		}
@@ -236,10 +235,7 @@ function checkRegExp(regExp, checkVal, textVal)
 		var errorRegExp = "Enter a valid " + textVal + ". <br/>";
 		return errorRegExp;
 	}
-	else
-	{
-	    return "";
-	}
+	return "";
 }
 
 function createObject(id, firstname, lastname, emailid, phone, dept, doj, gender, hobby)
