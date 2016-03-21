@@ -15,7 +15,7 @@ var dateRegExp = /^(([0-9])|([0-2][0-9])|([3][0-1]))\/((3[01]|[12][0-9]|0[1-9]))
 var errorText = "";
 
 function validateForm()
-{
+{	
 	hobbyid = 1;
 	for(i=0; i<3; i++)
 	{		
@@ -31,9 +31,15 @@ function validateForm()
 		{
 			gender = document.getElementsByName('e_gender')[i].value;			
 		}		
-	}	
-		
-	errorText = isEmpty(textRegExp,document.getElementById('e_fname').value,"First Name") + isEmpty(textRegExp,document.getElementById('e_lname').value,"Last Name") + isEmpty(emailRegExp,document.getElementById('e_email').value,"Email") + isEmpty(phRegExp,document.getElementById('e_ph').value,"Phone Number") + isEmpty("",document.getElementById('e_department').value,"Department") + isEmpty(dateRegExp,document.getElementById('e_joiningDate').value,"Joining Date") + isEmpty('',gender,"Gender") + isEmpty('',hobby,"Hobby");
+	}			
+	errorText = isEmpty(textRegExp,document.getElementById('e_fname').value,document.getElementById('e_fname').previousElementSibling.innerHTML);
+	errorText += isEmpty(textRegExp,document.getElementById('e_lname').value,document.getElementById('e_lname').previousElementSibling.innerHTML);
+	errorText += isEmpty(emailRegExp,document.getElementById('e_email').value,document.getElementById('e_email').previousElementSibling.innerHTML);
+	errorText += isEmpty(phRegExp,document.getElementById('e_ph').value,document.getElementById('e_ph').previousElementSibling.innerHTML);
+	errorText += isEmpty("",document.getElementById('e_department').value,document.getElementById('e_department').previousElementSibling.innerHTML);
+	errorText += isEmpty(dateRegExp,document.getElementById('e_joiningDate').value,document.getElementById('e_joiningDate').previousElementSibling.innerHTML);
+	errorText += isEmpty('',gender,"Gender");
+	errorText += isEmpty('',hobby,"Hobby");
 	document.getElementById('e_errorText').innerHTML = errorText ;	
 }
 
