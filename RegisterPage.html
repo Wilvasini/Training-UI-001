@@ -48,11 +48,11 @@
 					<div class="form-group col-xs-6">
 						<input type="hidden" id="eid" value=""/>
 						<label for="e_fname" class="col-xs-6">First Name:</label> 
-						<input type="text" name="e_fname" id="e_fname" class="col-xs-6 form-control"></input>
+						<input type="text" name="e_fname" id="e_fname" class="col-xs-6 form-control" onkeypress="return !onlyNumbers(event)"></input>
 					</div>
 					<div class="form-group col-xs-6">
 						<label for="e_lname" class="col-xs-6">Last Name: </label>
-						<input type="text" name="e_lname" id="e_lname" class="col-xs-6 form-control"></input>
+						<input type="text" name="e_lname" id="e_lname" class="col-xs-6 form-control" onkeypress="return !onlyNumbers(event)"></input>
 					</div>
 				</div>
 				<div class='row'>
@@ -62,7 +62,8 @@
 					</div>
 					<div class="form-group col-xs-6">
 						<label for="e_ph" class="col-xs-6">Phone Number:</label>
-						<input type="text" id="e_ph" class="col-xs-6 form-control"></input>
+						<input type="text" id="e_ph" class="col-xs-6 form-control" maxlength="10"  
+                    onkeypress="return onlyNumbers(event)"></input>
 					</div>
 				</div>
 				
@@ -98,24 +99,24 @@
 					<div class="form-group col-xs-6">
   						<label class='col-xs-3'>Hobbies: </label>
 						<label class="col-xs-3">
-							<input type="checkbox" id='singing' value='singing'></input>
+							<input type="checkbox" id='singing' value='singing' name='hobby'></input>
 							Singing 
 						</label>
 						<label class="col-xs-3">
-							<input type="checkbox" id='dancing' value='dancing'></input>  	
+							<input type="checkbox" id='dancing' value='dancing' name='hobby'></input>  	
 						 	Dancing
 					 	</label>
 						<label class="col-xs-3">
-							<input type="checkbox" id='driving' value='driving'></input>  	
+							<input type="checkbox" id='driving' value='driving' name='hobby'></input>  	
 						 	Driving 
 					 	</label>
 					</div>						
 				</div>
 				<div class='row'>
-					<button type="button" class="btn btn-primary active col-xs-1 col-xs-offset-4" onClick = "validateForm(1)">
+					<button type="button" class="btn btn-primary active col-xs-1 col-xs-offset-4" onClick = "validateForm()">
 						Submit
 					</button>
-					<button type="button" id="clearButton" class="btn btn-primary active col-xs-1 col-xs-offset-1" onClick = "clearData('employeeForm')">
+					<button type="button" id="clearButton" class="btn btn-primary active col-xs-1 col-xs-offset-1" onClick = "clearData('employeeForm');">
 						Clear
 					</button>
 				</div>
