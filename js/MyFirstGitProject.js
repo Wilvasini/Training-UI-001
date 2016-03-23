@@ -5,78 +5,64 @@ var sayHello = function()
 	document.getElementById("sayHello").innerHTML = sayHello;
 }
 
-function clearData(formID)
-{
-	document.getElementById(formID).reset();
-	document.getElementById('e_errorText').innerHTML = "" ;	
-	gender = '';
-	hobby = [];
-}
-
-var hobby = [];
-var hobbyid = 1;
-var gender;
-
-function isValid(elem)
-{	
-	var errorText = '';	
-	var checkValue = elem.value;
-	var textVal = elem.getAttribute("data-label");
-	var inputType = elem.type;
-	var regExp;
-		
-	if(checkValue == "")
-	{		
-		errorText = " " + textVal + " should be filled. <br/> ";		
-	}
-	else
-	{
-		if((elem.getAttribute("data-regexp")))
-		{
-			regExp = new RegExp(elem.getAttribute("data-regexp"));
-			if((!regExp.test(checkValue)))
+$(document).ready(function(){	
+	$("#btnFormValidate").click(function(){	
+		var errorText = '';	
+		var checked = true;
+		var radio = true;	
+		$('#e_errorText').text(errorText);
+		$("#employeeForm").find("input[type='text'], select").each(function(i,elem){			
+			errorText = '';
+			if($(elem).data("validate"))
 			{
-				errorText = "Enter a valid " + textVal + ". <br/>";				
+				if(!$(elem).val())
+				{
+					errorText = " " + $(elem).data("label") + " should be filled. <br/>";
+				}
+				else
+				{
+					if($(elem).data("regexp"))
+					{
+						var regexp = new RegExp($(elem).data("regexp"));
+						if(!(regexp.test($(elem).val())))
+						{
+							errorText = "Enter a valid " + $(elem).data("label") + ". <br/>";
+						}
+					}
+				}
+				$("#e_errorText").append(errorText);				
 			}
-		}				
-	}
-	return errorText;
-}
+		});		
+		errorText = "";
+		$("#employeeForm").children('div.row').find("input[type='radio']").each(function(i,elem){						
+			radio = false;
+			errorText = "Select a value for Gender. <br/>";
+			if(($(elem).is(":checked")))
+			{
+				radio = true;
+				errorText = "";
+				return false;
+			}						
+		});		
+		$("#e_errorText").append(errorText);
+		$("#employeeForm").children('div.row').find("input[type='checkbox']").each(function(i,elem){			
+			checked = false;
+			errorText = "Select a value for Hobby. <br/>";
+			if(($(elem).is(":checked")))
+			{
+				checked = true;
+				errorText = "";
+				return false;
+			}			
+		});
+		$("#e_errorText").append(errorText);
+	});
 
-function validateEmpForm()
-{	
-	var errorText = '';
-	var elem = document.getElementById('employeeForm').elements;	
-	for(var i = 0; i < elem.length; i++)
-    {
-    	if(elem[i].getAttribute("data-validate") == "true")
-    	{
-    		if((elem[i].type == "checkbox") && (elem[i].checked))
-    		{
-    			hobby[hobbyid] = elem[i];
-            	hobbyid++;            	
-    		} 
-    		else if((elem[i].type == "radio") && (elem[i].checked))
-    		{
-    			gender = elem[i];
-    		}  
-    		else
-    		{
-    			errorText += isValid(elem[i]);
-    		} 	    		
-    		//console.log(elem[i]);
-    	}		
-	}
-	if(!gender)
-	{
-		errorText += "Select an option for Gender<br/>";
-	}
-	if(hobby.length == 0)
-	{
-		errorText += "Select a value for Hobby<br/>";
-	}
-	document.getElementById('e_errorText').innerHTML = errorText ;	
-}
+	$("#clearButton").click(function(){
+		$("#employeeForm").trigger("reset");
+		$('#e_errorText').text('');
+	})
+});
 
 function onlyNumbers(e) {  
     var keynum;  
