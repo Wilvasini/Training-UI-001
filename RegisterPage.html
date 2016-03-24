@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myFirstGitApp">
 	<head>		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/lib/ng-grid.css">
 		<link rel="stylesheet" type="text/css" href="css/MyFirstGitProject.css">		
 	</head>
-	<body>
+	<body ng-controller="NavigateController">
 		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class='container-fluid'>
 				<div class='navbar-brand'>					
 					<span>My First Git Project</span>									
-				</div>				
-
+				</div>								
 				<div class='row nav navbar-nav nav-tabs'>
 					<li role="presentation">
 						<a href="MyFirstGitProject.html" id='home-tab'>
 							Home
 						</a>
-					</li>				
-
+					</li>
 					<li role="presentation" class="active">
 						<a href="#register">
 							Register
+						</a>
+					</li>
+					<li role="presentation">
+						<a href="MyFirstAngularGrid.html" id='grid-tab'>
+							Angular Grid
 						</a>
 					</li>
 				</div>
@@ -112,12 +116,21 @@
 					</div>						
 				</div>
 				<div class='row'>
-					<button type="button" id="btnFormValidate" class="btn btn-primary active col-xs-1 col-xs-offset-4" >
-						Submit
-					</button>
-					<button type="button" id="clearButton" class="btn btn-primary active col-xs-1 col-xs-offset-1">
-						Clear
-					</button>
+					<div class='col-xs-1 col-xs-offset-3'>
+						<button type="button" id="btnFormValidate" class="btn btn-primary active" >
+							Submit
+						</button>
+					</div>
+					<div class='col-xs-1 col-xs-offset-1'>
+						<button type="button" id="clearButton" class="btn btn-primary active">
+							Clear
+						</button>
+					</div>
+					<div class='col-xs-1 col-xs-offset-1'>
+						<button type="button" id="clearButton" ng-click="navigateToGridPage()" class="btn btn-primary active">
+							Navigate
+						</button>
+					</div>
 				</div>
 			</form>	
 			
@@ -139,9 +152,10 @@
 			</div>	
 
 		</div>
-		<script type="text/javascript" src='js/jquery-1.12.1.js'></script>
-		<script type="text/javascript" src='js/bootstrap.min.js'></script>		
-		<script type="text/javascript" src='js/angular.min.js'></script>
-		<script type="text/javascript" src="js/MyFirstGitProject.js"></script>
+		<script type="text/javascript" src="js/lib/jquery-1.12.1.js"></script>
+		<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>		
+		<script type="text/javascript" src="js/lib/angular.min.js"></script>
+		<script type="text/javascript" src="js/lib/ng-grid-2.0.14.debug.js"></script>		
+		<script type="text/javascript" src="js/MyFirstGitProject.js"></script>	
 	</body>
 </html>

@@ -71,3 +71,32 @@ function onlyNumbers(e) {
     numcheck = /\d/;     
 	return numcheck.test(String.fromCharCode(e.keyCode));
 }  
+
+var app = angular.module('myFirstGitApp', ['ngGrid']);
+app.controller('NavigateController',['$scope','$window', '$location',
+	function($scope, $window, $location){
+	$scope.text = "sample";
+	$scope.navigateToGridPage = function()
+	{
+		console.log("calling Navidate to grid page");
+		$window.location.href = 'MyFirstAngularGrid.html';
+	}
+}]);
+app.controller('GridController',['$scope','$window', '$location', '$http',
+	function($scope, $window, $location, $http){
+		/*$scope.myData = [{name: "Moroni", age: 50},
+                 {name: "Tiancum", age: 43},
+                 {name: "Jacob", age: 27},
+                 {name: "Nephi", age: 29},
+                 {name: "Enos", age: 34}];*/
+        var url = "http://127.0.0.1:8000/Test%20Folder%201/gridData.json";
+
+	    $http.get(url).success( function(response) {
+	     	$scope.myData = response; 
+	    });
+         $scope.gridOptions = { 
+         	data: 'myData',
+         	columnDefs: [{field: 'name', displayName: 'Name'},
+         				{field: 'age', displayName: 'Age'}]
+         };	
+}]);
