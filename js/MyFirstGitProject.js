@@ -75,28 +75,68 @@ function onlyNumbers(e) {
 var app = angular.module('myFirstGitApp', ['ngGrid']);
 app.controller('NavigateController',['$scope','$window', '$location',
 	function($scope, $window, $location){
-	$scope.text = "sample";
+	$scope.loremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 	$scope.navigateToGridPage = function()
 	{
 		console.log("calling Navidate to grid page");
 		$window.location.href = 'MyFirstAngularGrid.html';
 	}
 }]);
-app.controller('GridController',['$scope','$window', '$location', '$http',
-	function($scope, $window, $location, $http){
-		/*$scope.myData = [{name: "Moroni", age: 50},
-                 {name: "Tiancum", age: 43},
-                 {name: "Jacob", age: 27},
-                 {name: "Nephi", age: 29},
-                 {name: "Enos", age: 34}];*/
-        var url = "http://127.0.0.1:8000/Test%20Folder%201/gridData.json";
+app.controller('GridController',['$scope','$window', '$location', '$http', '$filter',
+	function($scope, $window, $location, $http, $filter){		
+		
+        var url = "http://127.0.0.1:8000/Test%20Folder%201/AngularGridTask.csv";
+        //var url = "http://127.0.0.1:8000/Test%20Folder%201/gridData.json";
+        //var url = "file:///opt/Training/Test Simple HTTP Server/Test Folder 1/gridData.json";
+        
+	    $http.get(url).success( function(response) {	     		     	
+	     	$scope.myData = response.split("\n");
+	     	$scope.myData.splice($scope.myData.length-1 , 1);	     	
+	     	$scope.jsonData = [];
+	     	$scope.rowData = [];
+	     	$scope.header = [];
+	     	angular.forEach($scope.myData, function(val,key){	     		
+	     		$scope.rowData.push(val.split(","));	     		
+	     	});
+	     	$scope.header = $scope.rowData[0];	 
 
-	    $http.get(url).success( function(response) {
-	     	$scope.myData = response; 
+	     	angular.forEach($scope.rowData, function(value,key){
+	     		var jsonText = [];
+	     		if(key > 0)
+	     		{
+	     			angular.forEach($scope.header,function(headerVal, headerKey){
+	     				jsonText[headerVal] = value[headerKey];	     				    				
+	     			});	     			
+	     			$scope.jsonData.push(jsonText);	     			
+	     		}	     		
+	     	});	 
+	     	$scope.jsonDataBackup = $scope.jsonData;
+	     	//$scope.jsonDataBackup = angular.copy($scope.jsonData);
+	     	console.log($scope.jsonData);    
+	     	//console.log($scope.jsonDataBackup);    
+	     	/*$scope.$watch('filterText',function(newVal, oldVal){
+		    	if(newVal == '')
+		    	{
+		    		console.log($scope.jsonDataBackup);
+		    		$scope.jsonData = angular.copy($scope.jsonDataBackup);
+		    	}
+		    	else
+		    	{
+		    		console.log($filter('filter')($scope.jsonData, $scope.jsonData['Name']));
+		    	}
+		    }, true);	*/
 	    });
+
+	    var toggle = true;
+	    $scope.sortData = function(i){
+	    	toggle = !toggle;	    	
+	    	$scope.jsonData = $filter('orderBy')($scope.jsonData, $scope.header[i],toggle);
+	    }	    
+	   
+	    /*
          $scope.gridOptions = { 
-         	data: 'myData',
+         	data: 'jsonData',
          	columnDefs: [{field: 'name', displayName: 'Name'},
          				{field: 'age', displayName: 'Age'}]
-         };	
+         };	*/
 }]);
