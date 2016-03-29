@@ -64,11 +64,11 @@
 						</thead>
 						<tbody class="table-hover">
 							<tr ng-repeat="(key, jdata) in jsonData | filter: filterText | limitTo: paginationLimit: beginingLimit">
-								<td>{{jdata.Sno}}</td>
+								<!-- <td>{{jdata.Sno}}</td>
 								<td>{{jdata.Name}}</td>
 								<td>{{jdata.Age}}</td>
-								<td>{{jdata.Gender}}</td>
-								<!-- <td ng-repeat="col in header">{{jdata[col]}}</td> -->
+								<td>{{jdata.Gender}}</td> -->
+								<td ng-repeat="col in header">{{jdata[col]}}</td>
 							</tr>
 						</tbody>						
 					</table>					

@@ -90,6 +90,7 @@ app.controller('GridController',['$scope','$window', '$location', '$http', '$fil
         var url = "http://127.0.0.1:8000/Test%20Folder%201/AngularGridTask.csv";
         //var url = "http://127.0.0.1:8000/Test%20Folder%201/gridData.json";
         //var url = "file:///opt/Training/Test Simple HTTP Server/Test%20Folder%201/gridData.json";
+        //var url = "data/AngularGridTask.csv";
         
 	    $http.get(url).success( function(response) {	     		     	
 	     	$scope.myData = response.split("\n");
