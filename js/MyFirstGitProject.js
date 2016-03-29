@@ -73,6 +73,7 @@ function onlyNumbers(e) {
 }  
 
 var app = angular.module('myFirstGitApp', ['ngGrid']);
+
 app.controller('NavigateController',['$scope','$window', '$location',
 	function($scope, $window, $location){
 	$scope.loremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -82,12 +83,13 @@ app.controller('NavigateController',['$scope','$window', '$location',
 		$window.location.href = 'MyFirstAngularGrid.html';
 	}
 }]);
+
 app.controller('GridController',['$scope','$window', '$location', '$http', '$filter',
 	function($scope, $window, $location, $http, $filter){		
 		
         var url = "http://127.0.0.1:8000/Test%20Folder%201/AngularGridTask.csv";
         //var url = "http://127.0.0.1:8000/Test%20Folder%201/gridData.json";
-        //var url = "file:///opt/Training/Test Simple HTTP Server/Test Folder 1/gridData.json";
+        //var url = "file:///opt/Training/Test Simple HTTP Server/Test%20Folder%201/gridData.json";
         
 	    $http.get(url).success( function(response) {	     		     	
 	     	$scope.myData = response.split("\n");
@@ -101,7 +103,7 @@ app.controller('GridController',['$scope','$window', '$location', '$http', '$fil
 	     	$scope.header = $scope.rowData[0];	 
 
 	     	angular.forEach($scope.rowData, function(value,key){
-	     		var jsonText = [];
+	     		var jsonText = {};
 	     		if(key > 0)
 	     		{
 	     			angular.forEach($scope.header,function(headerVal, headerKey){
@@ -110,28 +112,48 @@ app.controller('GridController',['$scope','$window', '$location', '$http', '$fil
 	     			$scope.jsonData.push(jsonText);	     			
 	     		}	     		
 	     	});	 
-	     	$scope.jsonDataBackup = $scope.jsonData;
-	     	//$scope.jsonDataBackup = angular.copy($scope.jsonData);
-	     	console.log($scope.jsonData);    
-	     	//console.log($scope.jsonDataBackup);    
-	     	/*$scope.$watch('filterText',function(newVal, oldVal){
-		    	if(newVal == '')
-		    	{
-		    		console.log($scope.jsonDataBackup);
-		    		$scope.jsonData = angular.copy($scope.jsonDataBackup);
-		    	}
-		    	else
-		    	{
-		    		console.log($filter('filter')($scope.jsonData, $scope.jsonData['Name']));
-		    	}
-		    }, true);	*/
+	     	
+	     	$scope.paginationLimit = 5;
+		    $scope.beginingLimit = 0;
+		    $scope.pageNo = 1;
+		    $scope.pageSize = ($scope.jsonData.length)/$scope.paginationLimit;		    
 	    });
+
+	    $scope.setPageLimit = function(limit){
+	    	$scope.paginationLimit = limit;
+	    	$scope.pageSize = ($scope.jsonData.length)/$scope.paginationLimit;
+	    	$scope.beginingLimit = 0; //$scope.beginingLimit - $scope.paginationLimit;	    	
+	    }
+	    $scope.range = function(n) {
+	        return new Array(n);
+	    };
+	    $scope.pagination = function(pageNo)
+	    {
+	    	$scope.pageNo = pageNo;
+	    	$scope.beginingLimit = ((pageNo-1)*$scope.paginationLimit);	    	
+	    }  
+	    $scope.next = function(){	    
+	    	if(($scope.pageNo*$scope.paginationLimit)>=($scope.jsonData.length))
+	    	{
+	    		return false;
+	    	}
+	    	$scope.pageNo += 1;
+	    	$scope.pagination($scope.pageNo);	    	
+	    }
+	    $scope.previous = function(){	    	
+	    	if($scope.pageNo == 1)
+	    	{
+	    		return false;
+	    	}
+	    	$scope.pageNo -= 1;
+	    	$scope.pagination($scope.pageNo);
+	    }
 
 	    var toggle = true;
 	    $scope.sortData = function(i){
 	    	toggle = !toggle;	    	
 	    	$scope.jsonData = $filter('orderBy')($scope.jsonData, $scope.header[i],toggle);
-	    }	    
+	    }
 	   
 	    /*
          $scope.gridOptions = { 
